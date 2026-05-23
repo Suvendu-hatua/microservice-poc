@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/api/v1/product")
 @RestController
 @RequiredArgsConstructor
@@ -30,8 +32,20 @@ public class ProductController {
   }
 
   @GetMapping
-  public ResponseEntity<ProductResponse> getProductById(@RequestParam("id") String id) {
+  public ResponseEntity<ProductResponse> getProductById(@RequestParam("product-id") String id) {
     ProductResponse productById = productService.getProductById(id);
     return ResponseEntity.status(HttpStatus.OK).body(productById);
+  }
+
+  @GetMapping("/all")
+  public ResponseEntity<List<ProductResponse>> getAllProducts(){
+    List<ProductResponse> allProducts = productService.getAllProducts();
+    return ResponseEntity.status(HttpStatus.OK).body(allProducts);
+  }
+
+  @GetMapping("/search")
+  public ResponseEntity<ProductResponse> getProductByProductCode(@RequestParam("product-code") String productCode) {
+    ProductResponse productByCode = productService.getProductByCode(productCode);
+    return ResponseEntity.status(HttpStatus.OK).body(productByCode);
   }
 }

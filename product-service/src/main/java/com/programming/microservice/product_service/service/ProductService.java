@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,12 +41,12 @@ public class ProductService {
     return mapper.mapToProductResponse(product);
   }
 
-  public List<ProductResponse> getProductByCode(String code) {
-    List<Product> byCodeProducts = productRepository.findByCode(code);
-    if(byCodeProducts.isEmpty()) {
+  public ProductResponse getProductByCode(String code) {
+    Optional<Product> optionalProduct = productRepository.findByCode(code);
+    if(optionalProduct.isEmpty()) {
       throw new ProductNotFoundException("Product not found with code " + code);
     }else{
-      return byCodeProducts.stream().map(mapper::mapToProductResponse).toList();
+      return mapper.mapToProductResponse(optionalProduct.get());
     }
   }
 }
