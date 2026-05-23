@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: product-service
+  mongodb:
+    uri: mongodb://localhost:27017/productdb
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    org.springframework.data.mongodb.repository.query: DEBUG
