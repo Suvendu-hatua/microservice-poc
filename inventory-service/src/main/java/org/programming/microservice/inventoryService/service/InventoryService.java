@@ -29,12 +29,14 @@ public class InventoryService {
   }
 
   @Transactional
-  public void addProductsInStock(InventoryRequest inventoryRequest) {
-    Inventory inventory = Inventory.builder()
-        .code(inventoryRequest.getCode())
-        .quantity(inventoryRequest.getQuantity())
-        .build();
-    inventoryRepository.save(inventory);
+  public void addProductsInStock(List<InventoryRequest> inventoryList) {
+    List<Inventory> inventories = inventoryList.stream()
+        .map(inventoryRequest -> Inventory.builder()
+            .code(inventoryRequest.getCode())
+            .quantity(inventoryRequest.getQuantity())
+            .build())
+        .toList();
+    inventoryRepository.saveAll(inventories);
     log.info("Added products into stock");
   }
 }

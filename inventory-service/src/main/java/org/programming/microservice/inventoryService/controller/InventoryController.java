@@ -21,8 +21,8 @@ public class InventoryController {
   }
 
   @PostMapping("/add")
-  public ResponseEntity<String> addProductsInStock(@RequestBody InventoryRequest inventoryRequest) {
-    inventoryService.addProductsInStock(inventoryRequest);
+  public ResponseEntity<String> addProductsInStock(@RequestBody List<InventoryRequest> inventoryList) {
+    inventoryService.addProductsInStock(inventoryList);
     return ResponseEntity.ok("Product added in stock successfully");
   }
 }
