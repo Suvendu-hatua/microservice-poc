@@ -1,13 +1,11 @@
 package org.programming.microservice.inventoryService.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.programming.microservice.inventoryService.dto.InventoryRequest;
 import org.programming.microservice.inventoryService.dto.InventoryResponse;
 import org.programming.microservice.inventoryService.service.InventoryService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +18,11 @@ public class InventoryController {
   @GetMapping("/check")
   public ResponseEntity<List<InventoryResponse>> checkProductInStock(@RequestParam List<String> productCode) {
     return ResponseEntity.ok(inventoryService.isInStock(productCode));
+  }
+
+  @PostMapping("/add")
+  public ResponseEntity<String> addProductsInStock(@RequestBody InventoryRequest inventoryRequest) {
+    inventoryService.addProductsInStock(inventoryRequest);
+    return ResponseEntity.ok("Product added in stock successfully");
   }
 }

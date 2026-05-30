@@ -2,9 +2,12 @@ package org.programming.microservice.inventoryService.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.programming.microservice.inventoryService.dto.InventoryRequest;
 import org.programming.microservice.inventoryService.dto.InventoryResponse;
+import org.programming.microservice.inventoryService.model.Inventory;
 import org.programming.microservice.inventoryService.repository.InventoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,5 +26,15 @@ public class InventoryService {
         .quantity(inventory.getQuantity())
         .build())
       .toList();
+  }
+
+  @Transactional
+  public void addProductsInStock(InventoryRequest inventoryRequest) {
+    Inventory inventory = Inventory.builder()
+        .code(inventoryRequest.getCode())
+        .quantity(inventoryRequest.getQuantity())
+        .build();
+    inventoryRepository.save(inventory);
+    log.info("Added products into stock");
   }
 }
