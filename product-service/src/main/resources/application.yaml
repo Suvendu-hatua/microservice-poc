@@ -3,6 +3,8 @@ spring:
     name: product-service
   mongodb:
     uri: mongodb://localhost:27017/product-service
+  config:
+    import: optional:configserver:http://localhost:9090
 
 #logging:
 #  level:
