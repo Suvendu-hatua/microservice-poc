@@ -8,6 +8,7 @@ spring:
           uri: "https://github.com/Suvendu-hatua/microservice-poc-config-server-repo.git"
           timeout: 5
           force-pull: true
+          default-label: main
 
 server:
   port: 9090
