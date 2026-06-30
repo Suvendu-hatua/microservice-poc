@@ -22,3 +22,7 @@ eureka:
 
 server:
   port: 0
+
+logging:
+  level:
+    com.programming.microservice.order_service: DEBUG

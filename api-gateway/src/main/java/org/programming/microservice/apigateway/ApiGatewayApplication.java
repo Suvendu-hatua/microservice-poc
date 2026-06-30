@@ -15,7 +15,7 @@ public class ApiGatewayApplication {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder routeLocatorBuilder) {
       return routeLocatorBuilder.routes()
-          .route("order-service", r -> r.path("api/order/**")
+          .route("order-service", r -> r.path("/api/v1/order/**")
               .uri("lb://order-service"))
           .route("product-service", r -> r.path("/api/v1/product/**")
               .uri("lb://product-service"))

@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/order")
+@RequestMapping("/api/v1/order")
 @RequiredArgsConstructor
 public class OrderController {
   private final OrderService orderService;
 
-  @PostMapping
+  @PostMapping("/place-order")
   public ResponseEntity<String> placeOrder(@RequestBody OrderRequest orderRequest) {
     Order order = orderService.placeOrder(orderRequest);
     return ResponseEntity.ok("Order placed successfully with orderNumber: " + order.getOrderNumber());
