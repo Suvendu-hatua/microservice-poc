@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-  private static final String SECRET_KEY = "your_secret_key";
+  private static final String SECRET_KEY = "mysecretkeymysecretkeymysecretkeymysecretkey";
 
   private Key getSigningKey(){
     byte[] decode = Decoders.BASE64.decode(SECRET_KEY);

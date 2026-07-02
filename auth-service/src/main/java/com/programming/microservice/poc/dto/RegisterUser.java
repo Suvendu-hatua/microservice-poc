@@ -24,6 +24,7 @@ public class RegisterUser {
 
   private String lastName;
 
+  @NotBlank(message = "email can't be null or blank")
   @Email(message = "must be a proper email format")
   private String email;
 }
