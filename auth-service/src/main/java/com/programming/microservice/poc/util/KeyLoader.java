@@ -18,11 +18,11 @@ public class KeyLoader {
   private  String secretKey;
 
   public PrivateKey loadPrivateKey() {
-    log.info(secretKey);
+    log.debug(secretKey);
     secretKey=secretKey.replace("-----BEGIN PRIVATE KEY-----","")
         .replace("-----END PRIVATE KEY-----","")
         .replaceAll("\\s","");
-    log.info("Modified Secret Key {}",secretKey);
+    log.debug("Modified Secret Key {}",secretKey);
     byte[] decode = Decoders.BASE64.decode(secretKey);
     PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(decode);
     try {

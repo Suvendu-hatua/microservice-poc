@@ -10,7 +10,9 @@ import com.programming.microservice.poc.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,10 +45,13 @@ public class UserService {
   }
 
   public String loginUser(LoginUser loginUser) {
-    authenticationManager.authenticate(
+    Authentication authenticate = authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword())
     );
-    String jwtToken=jwtService.generateToken(loginUser.getUsername());
+    if(!authenticate.isAuthenticated()){
+      throw new BadCredentialsException("Authentication failed");
+    }
+    String jwtToken=jwtService.generateToken(authenticate);
     log.info("JWT Token generated for user {}: {}", loginUser.getUsername(), jwtToken);
     return jwtToken;
   }
