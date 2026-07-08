@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -32,7 +33,7 @@ public class OrderService {
     List<InventoryResponse> inventoryResponses = inventoryFeignClient.checkProductInStock(productCodes).getBody();
     boolean allMatch = orderRequest.getOrderItemRequestList().stream()
         .allMatch(orderItemRequest -> {
-          InventoryResponse inventoryResponse = findInventoryResponse(inventoryResponses, orderItemRequest.getCode());
+          InventoryResponse inventoryResponse = findInventoryResponse(Objects.requireNonNull(inventoryResponses), orderItemRequest.getCode());
           return inventoryResponse != null && inventoryResponse.getQuantity() >= orderItemRequest.getQuantity();
         });
     if (!allMatch) {
