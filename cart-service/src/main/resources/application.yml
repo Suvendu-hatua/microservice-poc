@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: cart-service
+  data:
+    redis:
+      url: localhost
+      port: 6379
+      connect-timeout: 5s
