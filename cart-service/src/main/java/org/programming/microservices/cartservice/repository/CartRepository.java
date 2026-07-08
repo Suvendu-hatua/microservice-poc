@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.programming.microservices.cartservice.dto.CartRequest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.util.Map;
@@ -15,6 +16,7 @@ public class CartRepository {
 
   private static final String CART_KEY_PREFIX = "cart:";
 
+  @Transactional
   public void save(String userName, CartRequest cartRequest){
     String key = CART_KEY_PREFIX + userName;
     redisTemplate.opsForHash().put(key, cartRequest.getCode(), cartRequest.getQuantity());
@@ -26,11 +28,13 @@ public class CartRepository {
     return redisTemplate.opsForHash().entries(key);
   }
 
+  @Transactional
   public void deleteItem(String userName, String productCode){
     String key = CART_KEY_PREFIX + userName;
     redisTemplate.opsForHash().delete(key, productCode);
   }
 
+  @Transactional
   public void clearCart(String userName){
     String key = CART_KEY_PREFIX + userName;
     redisTemplate.delete(key);
