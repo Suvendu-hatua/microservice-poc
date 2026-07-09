@@ -12,19 +12,24 @@ import java.util.Map;
 @Repository
 @RequiredArgsConstructor
 public class CartRepository {
-  private final RedisTemplate<String,Object> redisTemplate;
+  private final RedisTemplate<String, Object> redisTemplate;
 
   private static final String CART_KEY_PREFIX = "cart:";
 
   @Transactional
   public void save(String userName, CartRequest cartRequest){
     String key = CART_KEY_PREFIX + userName;
+    if(cartRequest.getQuantity() <= 0){
+      redisTemplate.opsForHash().delete(key, cartRequest.getCode());
+      return;
+    }
     redisTemplate.opsForHash().put(key, cartRequest.getCode(), cartRequest.getQuantity());
     redisTemplate.expire(key, Duration.ofDays(40)); // Set expiration time for the cart
   }
 
   public Map<Object, Object> getCart(String userName){
     String key = CART_KEY_PREFIX + userName;
+    redisTemplate.opsForHash().entries(key);
     return redisTemplate.opsForHash().entries(key);
   }
 
@@ -39,5 +44,4 @@ public class CartRepository {
     String key = CART_KEY_PREFIX + userName;
     redisTemplate.delete(key);
   }
-
 }
