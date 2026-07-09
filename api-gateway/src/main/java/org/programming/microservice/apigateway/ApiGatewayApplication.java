@@ -23,6 +23,8 @@ public class ApiGatewayApplication {
               .uri("lb://product-service"))
           .route("inventory-service", r -> r.path("/api/inventory/**")
               .uri("lb://inventory-service"))
+          .route("cart-service", r -> r.path("/api/v1/cart/items/**")
+              .uri("lb://cart-service"))
           .build();
     }
 }

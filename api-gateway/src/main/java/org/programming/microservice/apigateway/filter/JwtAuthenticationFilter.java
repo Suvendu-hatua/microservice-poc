@@ -23,7 +23,9 @@ public class JwtAuthenticationFilter implements GlobalFilter {
 
   public static  final List<String> PUBLIC_ENDPOINTS = List.of(
       "/api/v1/auth/login",
-      "/api/v1/auth/register"
+      "/api/v1/auth/register",
+      "/api/v1/product/search",
+      "/api/v1/product/all"
   );
   /**
    * Process the Web request and (optionally) delegate to the next {@code GatewayFilter}
