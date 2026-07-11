@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "product-service")
+@FeignClient(name = "product-service", fallbackFactory = ProductFeignClientFallbackFactory.class)
 public interface ProductFeignClient {
   @GetMapping("/api/v1/product/search")
   ResponseEntity<ProductResponse> getProductByProductCode(@RequestParam("product-code") String productCode);
