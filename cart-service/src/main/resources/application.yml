@@ -6,6 +6,10 @@ spring:
       port: 6379
       connect-timeout: 5s
       host: localhost
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
 
 server:
   port: 9099
@@ -16,3 +20,14 @@ eureka:
   client:
     service-url:
         defaultZone: http://localhost:8761/eureka/
+
+resilience4j:
+  circuitbreaker:
+    configs:
+        default:
+            registerHealthIndicator: true
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            permittedNumberOfCallsInHalfOpenState: 3
+            waitDurationInOpenState: 30s
+            failureRateThreshold: 50

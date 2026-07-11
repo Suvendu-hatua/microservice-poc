@@ -12,6 +12,10 @@ spring:
     show-sql: true
   config:
     import: optional:configserver:http://localhost:9090
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
 
 eureka:
   instance:
@@ -26,3 +30,14 @@ server:
 logging:
   level:
     com.programming.microservice.order_service: DEBUG
+
+resilience4j:
+  circuitbreaker:
+    configs:
+        default:
+            registerHealthIndicator: true
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            permittedNumberOfCallsInHalfOpenState: 3
+            waitDurationInOpenState: 30s
+            failureRateThreshold: 50
