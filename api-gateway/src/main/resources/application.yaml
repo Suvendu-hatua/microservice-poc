@@ -17,3 +17,24 @@ logging:
     org.programming.microservice.apigateway: DEBUG
     org.springframework.cloud.gateway: INFO
     org.springframework.web: DEBUG
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 30s
+        failureRateThreshold: 50
+    instances:
+      auth-service-circuit-breaker:
+        baseConfig: default
+      order-service-circuit-breaker:
+        baseConfig: default
+      product-service-circuit-breaker:
+        baseConfig: default
+      inventory-service-circuit-breaker:
+        baseConfig: default
+      cart-service-circuit-breaker:
+        baseConfig: default
