@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "inventory-service")
+@FeignClient(name = "inventory-service",fallbackFactory = InventoryFeignClientFallbackFactory.class)
 public interface InventoryFeignClient {
   @GetMapping("/api/inventory/check")
   ResponseEntity<List<InventoryResponse>> checkProductInStock(@RequestParam List<String> productCode);
