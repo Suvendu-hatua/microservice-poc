@@ -1,10 +1,12 @@
 package org.programming.microservices.cartservice.service;
 
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.programming.microservices.cartservice.dto.Cart;
 import org.programming.microservices.cartservice.dto.CartItem;
 import org.programming.microservices.cartservice.dto.CartRequest;
+import org.programming.microservices.cartservice.dto.ProductResponse;
 import org.programming.microservices.cartservice.feign.ProductFeignClient;
 import org.programming.microservices.cartservice.repository.CartRepository;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,12 @@ public class CartService {
     cartRepository.save(userName, cartRequest);
   }
 
+  @Retry(name = "product-service")
+  public ProductResponse getProductByProductCode(String productCode) {
+    log.info("Getting product details for product code: {}", productCode);
+    return productFeignClient.getProductByProductCode(productCode).getBody();
+  }
+
   public Cart getCartItems(String userName) {
     log.info("For User {} getting cart items", userName);
     Map<Object, Object> cartItems = cartRepository.getCart(userName);
@@ -33,7 +41,7 @@ public class CartService {
     cartItems.forEach((key, value) -> {
       String productCode = (String) key;
       Integer quantity = (Integer) value;
-      var productResponse = productFeignClient.getProductByProductCode(productCode).getBody();
+      var productResponse = getProductByProductCode(productCode);
       if (productResponse != null) {
         availableItems.add(CartItem.builder()
             .name(productResponse.getName())

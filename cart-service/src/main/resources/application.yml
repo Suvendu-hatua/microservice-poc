@@ -31,3 +31,10 @@ resilience4j:
             permittedNumberOfCallsInHalfOpenState: 3
             waitDurationInOpenState: 30s
             failureRateThreshold: 50
+  retry:
+    instance:
+      product-service:
+        maxAttempts: 3
+        waitDuration: 1s
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
